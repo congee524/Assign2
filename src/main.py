@@ -107,7 +107,7 @@ def main():
                 x, label = x.cuda(), label.cuda()
                 output = model(x)
                 loss = loss_fn(output, label)
-                acc = cal_acc(output, label)
+                acc = cal_acc(output.detach().cpu(), label.detach().cpu())
                 loss_rec.update(loss)
                 acc_rec.update(acc)
                 optimizer.zero_grad()
@@ -126,10 +126,10 @@ def main():
                 model.eval()
                 val_acc_rec = SmoothedValue()
                 for x, label in val_dataloader:
-                    x, label = x.cuda(), label.cuda()
+                    x = x.cuda()
                     with torch.no_grad():
                         output = model(x)
-                    val_acc = cal_acc(output, label)
+                    val_acc = cal_acc(output.detach().cpu(), label.detach())
                     val_acc_rec.update(val_acc)
                 print('Epoch: [{:-2d}]  val_acc: {:.2f}%'.format(
                     epoch, val_acc_rec.global_avg * 100))
