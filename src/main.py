@@ -105,7 +105,7 @@ def main():
             acc_rec = SmoothedValue()
             for batch_idx, (x, label) in enumerate(train_dataloader):
                 scheduler.step()
-                x, label = x.cuda(), torch.tensor(label).cuda()
+                x, label = x.cuda(), label.cuda()
                 output = model(x)
                 loss = loss_fn(output, label)
                 acc = cal_acc(output, label)
@@ -126,6 +126,7 @@ def main():
                 model.eval()
                 val_acc_rec = SmoothedValue()
                 for x, label in val_dataloader:
+                    x, label = x.cuda(), label.cuda()
                     with torch.no_grad():
                         output = model(x)
                     val_acc = cal_acc(output, label)
@@ -138,6 +139,7 @@ def main():
         model.eval()
         preds = []
         for x in test_dataloader:
+            x = x.cuda()
             with torch.no_grad():
                 output = model(x)
             pred = np.argmax(output, axis=1)
