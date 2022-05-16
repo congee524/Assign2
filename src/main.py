@@ -94,7 +94,7 @@ def main():
                         weight_decay=1e-4,
                         nesterov=True)
         num_iters = args.epochs * (len(train_data_list) // args.batch_size)
-        scheduler = CosineAnnealingLR(optimizer, num_iters, verbose=True)
+        scheduler = CosineAnnealingLR(optimizer, num_iters)
 
         loss_fn = nn.CrossEntropyLoss().cuda()
 
@@ -117,10 +117,10 @@ def main():
                 if (batch_idx + 1) % 10 == 0:
                     print(
                         'Epoch: [{:-2d}]  [{:-4d}/{:-4d}] loss: {:.4f}'.format(
-                            epoch, batch_idx + 1, iters_per_epoch,
+                            epoch + 1, batch_idx + 1, iters_per_epoch,
                             loss_rec.avg))
             print('Epoch: [{:-2d}]  loss: {:.4f}  train_acc: {:.2f}%'.format(
-                epoch, loss_rec.global_avg, acc_rec.global_avg * 100))
+                epoch + 1, loss_rec.global_avg, acc_rec.global_avg * 100))
 
             if args.validation:
                 model.eval()
@@ -132,7 +132,7 @@ def main():
                     val_acc = cal_acc(output.detach().cpu(), label.detach())
                     val_acc_rec.update(val_acc)
                 print('Epoch: [{:-2d}]  val_acc: {:.2f}%'.format(
-                    epoch, val_acc_rec.global_avg * 100))
+                    epoch + 1, val_acc_rec.global_avg * 100))
 
         torch.save(model.state_dict(), os.path.join(args.work_dir, 'temp.pth'))
     elif args.mode == 'test':
