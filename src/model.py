@@ -26,11 +26,13 @@ class Classifier(nn.Module):
 
         self.loss_cls = nn.CrossEntropyLoss()
 
-        self.init_weights(self)
+        self.init_weights()
 
     def init_weights(self):
-        nn.init.kaiming_normal_(self.linear, mode='fan_in')
-        nn.init.normal_(self.fc_cls, std=self.init_std)
+        nn.init.kaiming_normal_(self.linear.weight,
+                                mode='fan_out',
+                                nonlinearity='relu')
+        nn.init.normal_(self.fc_cls.weight, std=self.init_std)
 
     def forward(self, x):
         x = self.linear(x)

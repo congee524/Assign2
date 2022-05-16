@@ -104,7 +104,6 @@ def main():
             loss_rec = SmoothedValue()
             acc_rec = SmoothedValue()
             for batch_idx, (x, label) in enumerate(train_dataloader):
-                scheduler.step()
                 x, label = x.cuda(), label.cuda()
                 output = model(x)
                 loss = loss_fn(output, label)
@@ -114,6 +113,7 @@ def main():
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
+                scheduler.step()
                 if (batch_idx + 1) % 10 == 0:
                     print(
                         'Epoch: [{:-2d}]  [{:-4d}/{:-4d}] loss: {:.4f}'.format(

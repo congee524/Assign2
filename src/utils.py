@@ -53,6 +53,7 @@ class SmoothedValue(object):
 
 
 def cal_acc(scores, labels):
+    scores, labels = scores.cpu(), labels.cpu()
     preds = np.argmax(scores, axis=1)
     num = preds.shape[0]
     acc = sum(int(preds[i]) == int(labels[i]) for i in range(num)) / num

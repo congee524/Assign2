@@ -22,12 +22,12 @@ class FeatureDataset(Dataset):
     def __getitem__(self, index):
         if self.mode == 'train' or self.mode == 'val':
             idx = self.data_list[index]
-            data = self.feature_data[idx]
+            data = self.feat_data[idx]
             label = self.label_array[idx]
             return data, int(label)
         elif self.mode == 'test':
             idx = self.data_list[index]
-            data = self.feature_data[idx]
+            data = self.feat_data[idx]
             return data
 
     def __len__(self):
