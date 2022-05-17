@@ -12,7 +12,7 @@ class FeatureDataset(Dataset):
         self.data_list = data_list
         self.mode = mode
 
-        self.feat_data = torch.load(self.anno_file[:-4] + '_feat_embedding.pt',
+        self.feat_data = torch.load(self.anno_file[:-4] + '_feat_embed.pt',
                                     map_location='cpu')
 
         if self.mode != 'test':

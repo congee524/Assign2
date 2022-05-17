@@ -147,4 +147,5 @@ work_dir/
 bak_file/
 Booking_price/
 src/elmo_3/
-*.xlsx
+report/
+*.pdf

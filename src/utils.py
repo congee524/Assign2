@@ -1,7 +1,8 @@
 from collections import deque
 
 import torch
-import numpy as np
+import torch.nn as nn
+import torch.nn.functional as F
 
 
 class SmoothedValue(object):
@@ -52,9 +53,19 @@ class SmoothedValue(object):
                                value=self.value)
 
 
-def cal_acc(scores, labels):
-    preds = np.argmax(scores, axis=1)
-    num = preds.shape[0]
-    acc = sum(int(preds[i]) == int(labels[i]) for i in range(num)) / num
+class FocalLoss(nn.modules.loss._WeightedLoss):
 
-    return acc
+    def __init__(self, weight=None, gamma=2, reduction='mean'):
+        super(FocalLoss, self).__init__(weight, reduction=reduction)
+        self.gamma = gamma
+        self.weight = weight  #weight parameter will act as the alpha parameter to balance class weights
+
+    def forward(self, input, target):
+
+        ce_loss = F.cross_entropy(input,
+                                  target,
+                                  reduction=self.reduction,
+                                  weight=self.weight)
+        pt = torch.exp(-ce_loss)
+        focal_loss = ((1 - pt)**self.gamma * ce_loss).mean()
+        return focal_loss
