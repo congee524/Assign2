@@ -1,3 +1,3 @@
-![image-20220516223910487](README.assets/image-20220516223910487.png)
+# Assignment 2
 
-![image-20220516224156502](README.assets/image-20220516224156502.png)
+AML 作业 2
