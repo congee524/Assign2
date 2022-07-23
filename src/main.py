@@ -20,7 +20,10 @@ def get_args():
                                      add_help=False)
 
     parser.add_argument('--anno', type=str, help='annotation file')
-    parser.add_argument('--num_classes', default=6, type=int)
+    parser.add_argument('--num_classes',
+                        default=6,
+                        type=int,
+                        help='number of classes')
     parser.add_argument('--in_channels', default=3072, type=int)
 
     parser.add_argument('--mode',
